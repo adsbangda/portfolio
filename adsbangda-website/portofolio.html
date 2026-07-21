@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portofolio — adsbangda | Studi Kasus Klien Kami</title>
+<title>Adsbangda - Portofolio</title>
 <meta name="description" content="Lihat studi kasus dan hasil kerja adsbangda bersama berbagai klien di bidang F&B, properti, edukasi, dan lainnya.">
 <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAYUlEQVR4nGNkgAJRcen/DESC1y+fMsLYjKRqRjeIkVzNMMBEiWbaGvDKWIkoA1jwSaIbInb2HvEuIBZgNQCb87HZThUXYA0DdNvwBeggSEjIGYNU8PrlU0aKXQC3ndzsDADX6h5fpGEisgAAAABJRU5ErkJggg==">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAl0lEQVR4nGNkwAJExaX/YxOnFLx++ZQRXQxFgFYW43MIE70tR7eLid6WozuCiZBCWgPGgfA9MhjwEBh1wKgDSHbAK2MlqjqAhRxNhBwhdvYe0WYNvSgY2Q4gJgGSEv8kO4AWYNQBJJUDhOKXnEJqtD0w6oBRBzBh6y7RC7x++ZRxwEIA5nEmZM5AALp3TtE9i9Xn9OyeAwCJVy0KgdEXfgAAAABJRU5ErkJggg==">
@@ -673,7 +673,7 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
   </div>
 </section>
 
-<section class="section section-dark" id="portofolio" style="padding-top:0;">
+<section class="section section-dark" id="portofolio" style="padding-top:56px;">
   <div class="wrap">
     <div class="slider-controls">
       <button class="slider-btn" id="sliderPrev" aria-label="Sebelumnya">
@@ -1016,21 +1016,23 @@ for(let i=0;i<originalCardCount;i++){
   const dot = document.createElement('span');
   if(i === 0) dot.classList.add('active');
   dot.addEventListener('click', ()=>{
-    isAutoScrolling = false;
-    portfolioGrid.scrollTo({left: i * cardStep(), behavior:'smooth'});
+    portfolioGrid.scrollTo({left: i * cachedCardStep, behavior:'smooth'});
     pauseAutoSlide();
   });
   sliderDots.appendChild(dot);
 }
 const dotEls2 = Array.from(sliderDots.children);
 
-function cardStep(){
+let cachedCardStep = 360;
+function recomputeCardStep(){
   const card = cardEls[0];
   const style = getComputedStyle(portfolioGrid);
   const gap = parseFloat(style.columnGap || style.gap || 20);
-  return card.getBoundingClientRect().width + gap;
+  cachedCardStep = card.getBoundingClientRect().width + gap;
 }
-function setWidth(){ return cardStep() * originalCardCount; }
+recomputeCardStep();
+
+function setWidth(){ return cachedCardStep * originalCardCount; }
 
 function wrapCheck(){
   const sw = setWidth();
@@ -1041,65 +1043,59 @@ function wrapCheck(){
   }
 }
 function updateSliderState(){
-  const step = cardStep();
-  const idx = Math.round(portfolioGrid.scrollLeft / step) % originalCardCount;
+  const idx = Math.round(portfolioGrid.scrollLeft / cachedCardStep) % originalCardCount;
   dotEls2.forEach((d,i)=> d.classList.toggle('active', i === idx));
 }
+let scrollDebounce = null;
 portfolioGrid.addEventListener('scroll', ()=>{
-  window.requestAnimationFrame(updateSliderState);
+  updateSliderState();
+  clearTimeout(scrollDebounce);
+  scrollDebounce = setTimeout(wrapCheck, 150);
 });
 sliderPrev.addEventListener('click', ()=>{
-  isAutoScrolling = false;
-  if(portfolioGrid.scrollLeft < cardStep()){
+  if(portfolioGrid.scrollLeft < cachedCardStep){
     portfolioGrid.scrollLeft += setWidth();
   }
-  portfolioGrid.scrollBy({left: -cardStep(), behavior:'smooth'});
+  portfolioGrid.scrollBy({left: -cachedCardStep, behavior:'smooth'});
   pauseAutoSlide();
 });
 sliderNext.addEventListener('click', ()=>{
-  isAutoScrolling = false;
-  portfolioGrid.scrollBy({left: cardStep(), behavior:'smooth'});
+  portfolioGrid.scrollBy({left: cachedCardStep, behavior:'smooth'});
   pauseAutoSlide();
 });
-window.addEventListener('resize', updateSliderState);
+window.addEventListener('resize', ()=>{ recomputeCardStep(); updateSliderState(); });
 updateSliderState();
 
-// ---- auto-play slider: continuous smooth drift (no discrete jumps) ----
-const AUTO_SPEED = 34; // pixels per second
+// ---- auto-play slider ----
 let isAutoScrolling = false;
-let lastFrameTime = null;
-let autoRafId = null;
+let autoSlideTimer = null;
 
-function autoScrollFrame(t){
-  if(!isAutoScrolling){ lastFrameTime = null; return; }
-  if(lastFrameTime !== null){
-    const dt = (t - lastFrameTime) / 1000;
-    portfolioGrid.scrollLeft += AUTO_SPEED * dt;
-    wrapCheck();
-  }
-  lastFrameTime = t;
-  autoRafId = requestAnimationFrame(autoScrollFrame);
+function autoSlideTick(){
+  portfolioGrid.scrollBy({left: cachedCardStep, behavior:'smooth'});
 }
 function startAutoSlide(){
   if(reduceMotion) return;
   if(isAutoScrolling) return;
   isAutoScrolling = true;
-  lastFrameTime = null;
-  autoRafId = requestAnimationFrame(autoScrollFrame);
+  autoSlideTimer = setInterval(autoSlideTick, 2800);
 }
 function pauseAutoSlide(){
   isAutoScrolling = false;
-  if(autoRafId) cancelAnimationFrame(autoRafId);
+  clearInterval(autoSlideTimer);
   clearTimeout(window._autoSlideResume);
   window._autoSlideResume = setTimeout(startAutoSlide, 4500);
 }
 const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 if(supportsHover){
-  portfolioGrid.addEventListener('mouseenter', ()=>{ isAutoScrolling = false; if(autoRafId) cancelAnimationFrame(autoRafId); });
+  portfolioGrid.addEventListener('mouseenter', ()=>{ isAutoScrolling = false; clearInterval(autoSlideTimer); });
   portfolioGrid.addEventListener('mouseleave', startAutoSlide);
 }
-portfolioGrid.addEventListener('touchstart', ()=>{ isAutoScrolling = false; if(autoRafId) cancelAnimationFrame(autoRafId); }, {passive:true});
-portfolioGrid.addEventListener('touchend', pauseAutoSlide, {passive:true});
+// Note: we deliberately do NOT pause on touchstart/touchend anymore.
+// On touch devices, simply scrolling the page vertically past this section
+// often touches down inside the slider bounding box, which was killing
+// the auto-slide permanently on iPad/mobile even without any real interaction
+// with the slider itself. Manual swipes on the track still work natively;
+// the interval loop just keeps nudging it forward afterward, which is harmless.
 sliderDots.addEventListener('click', pauseAutoSlide);
 
 // Only run the auto-slide while the portfolio section is actually visible on screen,
@@ -1112,7 +1108,7 @@ const portfolioVisibility = new IntersectionObserver((entries)=>{
       startAutoSlide();
     } else {
       isAutoScrolling = false;
-      if(autoRafId) cancelAnimationFrame(autoRafId);
+      clearInterval(autoSlideTimer);
       clearTimeout(window._autoSlideResume);
     }
   });
