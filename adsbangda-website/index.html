@@ -1174,6 +1174,7 @@ const modalContent = document.getElementById('modalContent');
 const modalClose = document.getElementById('modalClose');
 
 function T(v){ return (v && typeof v === 'object' && !Array.isArray(v)) ? (v[currentLang] !== undefined ? v[currentLang] : (v.id || v.en)) : v; }
+function brandSlug(brand){ return brand.toLowerCase().trim().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,''); }
 
 function openClientModal(client){
   modalContent.innerHTML = `
@@ -1220,7 +1221,7 @@ function buildCard(client, immediate){
       <div class="view-more">${currentLang === 'id' ? 'Lihat detail proyek →' : 'View project details →'}</div>
     </div>
   `;
-  el.addEventListener('click', ()=> openClientModal(client));
+  el.addEventListener('click', ()=> { window.location.href = 'studi-kasus-' + brandSlug(client.brand) + '.html'; });
   return el;
 }
 // Original set
