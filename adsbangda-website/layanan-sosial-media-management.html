@@ -120,11 +120,10 @@ nav{
 .nav-drop-trigger .chevron{width:9px;height:9px;color:var(--ink);opacity:.6;transition:transform .2s ease;}
 .nav-item-dropdown:hover .nav-drop-trigger .chevron,.nav-item-dropdown:focus-within .nav-drop-trigger .chevron{transform:rotate(180deg);}
 .nav-dropdown{
-  position:absolute;top:calc(100% + 18px);left:50%;
+  position:absolute;top:100%;left:50%;
+  padding-top:18px;
+  min-width:250px;
   transform:translateX(-50%) translateY(6px);
-  background:var(--white);border:1px solid rgba(21,23,27,.09);border-radius:16px;
-  padding:10px;min-width:250px;
-  box-shadow:0 24px 48px -24px rgba(21,23,27,.35);
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .18s ease,transform .18s ease;
   z-index:950;
@@ -132,7 +131,13 @@ nav{
 .nav-item-dropdown:hover .nav-dropdown,.nav-item-dropdown:focus-within .nav-dropdown{
   opacity:1;visibility:visible;pointer-events:auto;transform:translateX(-50%) translateY(0);
 }
-.nav-dropdown::before{
+.nav-dropdown-inner{
+  position:relative;
+  background:var(--white);border:1px solid rgba(21,23,27,.09);border-radius:16px;
+  padding:10px;
+  box-shadow:0 24px 48px -24px rgba(21,23,27,.35);
+}
+.nav-dropdown-inner::before{
   content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%) rotate(45deg);
   width:12px;height:12px;background:var(--white);
   border-left:1px solid rgba(21,23,27,.09);border-top:1px solid rgba(21,23,27,.09);
@@ -619,6 +624,7 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
           <span data-i18n-nav="layanan">Layanan</span><svg class="chevron" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
         <div class="nav-dropdown">
+          <div class="nav-dropdown-inner">
           <a href="layanan-sosial-media-management.html" class="active">Social Media Management</a>
           <a href="layanan-content-strategy.html">Content Strategy</a>
           <a href="layanan-meta-ads.html">Meta Ads Performance</a>
@@ -628,6 +634,7 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
           <a href="layanan-creative-design.html">Creative Design</a>
           <a href="layanan-digital-growth-consulting.html">Digital Growth Consulting</a>
           <a href="layanan.html" class="nav-dropdown-all">Semua Layanan &rarr;</a>
+          </div>
         </div>
       </div>
       <a href="blog.html" data-i18n-nav="blog">Blog</a>
