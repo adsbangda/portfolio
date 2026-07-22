@@ -775,7 +775,8 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
       </div>
       <form class="kontak-form" id="kontakForm">
         <input type="hidden" name="access_key" value="b0d3d624-3ecc-4794-ba6c-ce8da7d0dc8a">
-        <input type="hidden" name="subject" value="Lead Baru dari Form Kontak Website Adsbangda">
+        <input type="hidden" name="subject" id="formSubject" value="Lead Baru dari Form Kontak Website Adsbangda">
+        <input type="hidden" name="from_name" value="Website Adsbangda">
         <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
 
         <div>
@@ -890,6 +891,11 @@ if(kontakForm){
     btn.disabled = true;
     btn.textContent = 'Mengirim...';
     statusEl.className = 'form-status';
+
+    // subjek dinamis biar email lebih personal & gak keliatan generik/spammy
+    const namaVal = kontakForm.querySelector('#nama').value.trim();
+    const layananVal = kontakForm.querySelector('#layanan').value;
+    document.getElementById('formSubject').value = `Lead Baru: ${namaVal} tertarik ${layananVal} - Adsbangda`;
 
     try{
       const formData = new FormData(kontakForm);
