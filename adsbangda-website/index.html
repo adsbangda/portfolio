@@ -258,7 +258,7 @@ nav{
 .stair-3{left:148px;bottom:100px;width:78px;background:var(--teal);}
 .stair-4{left:222px;bottom:150px;width:78px;background:var(--coral);}
 .stair-5{left:296px;bottom:200px;width:78px;background:var(--yellow);}
-.stick-figure{position:absolute;left:14px;bottom:34px;width:52px;height:78px;z-index:5;animation:climbStairs 5.8s cubic-bezier(.45,0,.4,1) infinite;filter:drop-shadow(0 8px 10px rgba(21,23,27,.3));will-change:transform;}
+.stick-figure{position:absolute;left:14px;bottom:34px;width:52px;height:78px;z-index:5;animation:climbStairs 5.8s cubic-bezier(.45,0,.4,1) infinite;will-change:transform;}
 .sf-arm-l{animation:armSwing 0.5s ease-in-out infinite alternate;transform-origin:30px 32px;}
 .sf-arm-flag{animation:armSwing 0.5s ease-in-out infinite alternate;transform-origin:30px 32px;animation-delay:.25s;}
 .sf-flag-cloth{animation:flagWave 1.1s ease-in-out infinite;transform-origin:46px 4px;}
@@ -535,13 +535,18 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
   }
 }
 </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-PZJXS7ZGKX"></script>
+<!-- Google tag (gtag.js) - loaded after page finishes loading so it doesn't compete with critical resources -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PZJXS7ZGKX');
+  window.addEventListener('load', function(){
+    var gtagScript = document.createElement('script');
+    gtagScript.async = true;
+    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-PZJXS7ZGKX';
+    document.head.appendChild(gtagScript);
+  });
 </script>
 </head>
 <body>
