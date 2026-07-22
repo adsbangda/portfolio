@@ -579,6 +579,47 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 .faq-item h4{font-size:15.5px;margin-bottom:8px;}
 .faq-item p{font-size:14px;line-height:1.65;color:#4d4f4a;text-align:justify;}
 
+/* kontak form */
+.kontak-form-section{padding-top:0;}
+.kontak-form-card{
+  background:var(--white);border:1px solid rgba(21,23,27,.09);border-radius:20px;
+  padding:36px;
+}
+.kontak-form-card .form-head{margin-bottom:26px;}
+.kontak-form-card .form-head h2{font-size:24px;margin-bottom:8px;}
+.kontak-form-card .form-head p{font-size:14.5px;color:#4d4f4a;line-height:1.6;}
+.kontak-form{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.kontak-form .field-full{grid-column:1/-1;}
+.kontak-form label{
+  display:block;font-family:'Space Mono',monospace;font-size:11.5px;
+  text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px;
+}
+.kontak-form input,.kontak-form select,.kontak-form textarea{
+  width:100%;background:var(--paper);border:1.5px solid rgba(21,23,27,.12);
+  border-radius:12px;padding:13px 15px;font-family:'Instrument Sans',sans-serif;
+  font-size:14.5px;color:var(--ink);transition:border-color .18s ease,background .18s ease;
+}
+.kontak-form input:focus,.kontak-form select:focus,.kontak-form textarea:focus{
+  outline:none;border-color:var(--coral);background:var(--white);
+}
+.kontak-form textarea{resize:vertical;min-height:120px;}
+.kontak-form .form-submit-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.kontak-form button[type="submit"]{
+  background:var(--ink);color:var(--paper);padding:15px 30px;border-radius:100px;
+  font-weight:700;font-size:15px;border:1px solid var(--ink);cursor:pointer;
+  transition:transform .18s ease,background .18s ease;
+}
+.kontak-form button[type="submit"]:hover{background:var(--coral);border-color:var(--coral);transform:translateY(-2px);}
+.kontak-form button[type="submit"]:disabled{opacity:.6;cursor:not-allowed;transform:none;}
+.form-status{font-size:13.5px;font-weight:600;display:none;}
+.form-status.show{display:block;}
+.form-status.ok{color:var(--teal);}
+.form-status.err{color:var(--coral);}
+@media (max-width:640px){
+  .kontak-form{grid-template-columns:1fr;}
+  .kontak-form-card{padding:26px 22px;}
+}
+
 @media (max-width:900px){
   .service-detail-grid{grid-template-columns:1fr;gap:26px;}
   .kontak-grid{grid-template-columns:1fr;gap:10px;}
@@ -724,6 +765,58 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
   </div>
 </section>
 
+<section class="section kontak-form-section">
+  <div class="wrap">
+    <div class="kontak-form-card reveal">
+      <div class="form-head">
+        <div class="eyebrow"><span class="dot"></span>ATAU ISI FORM</div>
+        <h2>Ceritain kebutuhan kamu lewat form</h2>
+        <p>Isi form di bawah, pesan kamu langsung masuk ke email kami dan akan dibalas dalam 1x24 jam kerja.</p>
+      </div>
+      <form class="kontak-form" id="kontakForm">
+        <input type="hidden" name="access_key" value="GANTI_DENGAN_ACCESS_KEY_WEB3FORMS_ANDA">
+        <input type="hidden" name="subject" value="Lead Baru dari Form Kontak Website Adsbangda">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+        <div>
+          <label for="nama">Nama Lengkap</label>
+          <input type="text" id="nama" name="Nama" required placeholder="Nama kamu">
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="Email" required placeholder="nama@email.com">
+        </div>
+        <div>
+          <label for="wa">No. WhatsApp</label>
+          <input type="tel" id="wa" name="WhatsApp" required placeholder="08xxxxxxxxxx">
+        </div>
+        <div>
+          <label for="layanan">Layanan yang Diminati</label>
+          <select id="layanan" name="Layanan">
+            <option>Social Media Management</option>
+            <option>Content Strategy</option>
+            <option>Meta Ads Performance</option>
+            <option>KOL &amp; Influencer Management</option>
+            <option>Branding &amp; Visual Identity</option>
+            <option>Website &amp; Landing Page</option>
+            <option>Creative Design</option>
+            <option>Digital Growth Consulting</option>
+            <option>Belum Yakin / Konsultasi Dulu</option>
+          </select>
+        </div>
+        <div class="field-full">
+          <label for="pesan">Ceritakan Kebutuhan Bisnis Kamu</label>
+          <textarea id="pesan" name="Pesan" required placeholder="Contoh: saya punya bisnis kopi, mau naikin awareness dan penjualan lewat Instagram..."></textarea>
+        </div>
+        <div class="field-full form-submit-row">
+          <button type="submit">Kirim Pesan &rarr;</button>
+          <span class="form-status" id="formStatus"></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section class="cta">
   <div class="wrap">
     <h2>Masih Ada yang Ingin Ditanyakan?</h2>
@@ -778,6 +871,52 @@ const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
 },{threshold:.12});
 revealEls.forEach(el=>io.observe(el));
+
+// kontak form submit (Web3Forms)
+const kontakForm = document.getElementById('kontakForm');
+if(kontakForm){
+  const statusEl = document.getElementById('formStatus');
+  kontakForm.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const btn = kontakForm.querySelector('button[type="submit"]');
+    const accessKey = kontakForm.querySelector('input[name="access_key"]').value;
+
+    if(!accessKey || accessKey === 'GANTI_DENGAN_ACCESS_KEY_WEB3FORMS_ANDA'){
+      statusEl.textContent = 'Form belum aktif — access key belum dipasang.';
+      statusEl.className = 'form-status show err';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Mengirim...';
+    statusEl.className = 'form-status';
+
+    try{
+      const formData = new FormData(kontakForm);
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: formData
+      });
+      const result = await res.json();
+
+      if(result.success){
+        statusEl.textContent = 'Terkirim! Kami akan balas ke email/WhatsApp kamu secepatnya.';
+        statusEl.className = 'form-status show ok';
+        kontakForm.reset();
+      } else {
+        statusEl.textContent = 'Gagal mengirim, coba lagi atau hubungi lewat WhatsApp.';
+        statusEl.className = 'form-status show err';
+      }
+    } catch(err){
+      statusEl.textContent = 'Gagal mengirim, coba lagi atau hubungi lewat WhatsApp.';
+      statusEl.className = 'form-status show err';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Kirim Pesan \u2192';
+    }
+  });
+}
 
 // whatsapp links with prefilled message
 let currentLang = 'id';
