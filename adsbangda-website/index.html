@@ -535,18 +535,34 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
   }
 }
 </style>
-<!-- Google tag (gtag.js) - loaded after page finishes loading so it doesn't compete with critical resources -->
+<!-- Google tag (gtag.js) - loaded on first user interaction or when browser is idle, never during initial page load -->
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'G-PZJXS7ZGKX');
-  window.addEventListener('load', function(){
-    var gtagScript = document.createElement('script');
-    gtagScript.async = true;
-    gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-PZJXS7ZGKX';
-    document.head.appendChild(gtagScript);
-  });
+  (function(){
+    let gtagLoaded = false;
+    function loadGtagScript(){
+      if(gtagLoaded) return;
+      gtagLoaded = true;
+      const gtagScript = document.createElement('script');
+      gtagScript.async = true;
+      gtagScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-PZJXS7ZGKX';
+      document.head.appendChild(gtagScript);
+      ['scroll','mousemove','touchstart','keydown','click'].forEach(evt=>{
+        window.removeEventListener(evt, loadGtagScript, {passive:true});
+      });
+    }
+    ['scroll','mousemove','touchstart','keydown','click'].forEach(evt=>{
+      window.addEventListener(evt, loadGtagScript, {passive:true, once:true});
+    });
+    if('requestIdleCallback' in window){
+      requestIdleCallback(loadGtagScript, {timeout:8000});
+    } else {
+      setTimeout(loadGtagScript, 6000);
+    }
+  })();
 </script>
 </head>
 <body>
@@ -951,13 +967,16 @@ function positionMiniDividers(){
   const dividers = [document.getElementById('miniDiv1'), document.getElementById('miniDiv2')];
   const container = document.querySelector('.mini-stats');
   if(!container || stats.length < 3) return;
+  // batch all reads first to avoid forced synchronous layout
   const containerLeft = container.getBoundingClientRect().left;
+  const rects = Array.from(stats).map(s => s.getBoundingClientRect());
+  const positions = [];
   for(let i=0;i<2;i++){
-    const left = stats[i].getBoundingClientRect().right;
-    const right = stats[i+1].getBoundingClientRect().left;
-    const mid = (left + right) / 2 - containerLeft;
-    if(dividers[i]) dividers[i].style.left = mid + 'px';
+    const mid = (rects[i].right + rects[i+1].left) / 2 - containerLeft;
+    positions.push(mid);
   }
+  // then batch all writes
+  positions.forEach((mid, i)=>{ if(dividers[i]) dividers[i].style.left = mid + 'px'; });
 }
 window.addEventListener('load', positionMiniDividers);
 window.addEventListener('resize', positionMiniDividers);
