@@ -212,21 +212,21 @@ nav{
 .runner-track{position:absolute;left:0;right:0;top:-58px;height:100px;overflow:hidden;pointer-events:none;}
 .runner-inner{position:relative;height:100%;width:100%;}
 .runner-ground{position:absolute;left:0;right:0;bottom:22px;height:1px;background:rgba(21,23,27,.15);}
-.runner-figure{position:absolute;bottom:22px;width:38px;height:58px;animation:runAcross 6s linear infinite;}
+.runner-figure{position:absolute;left:0;bottom:22px;width:38px;height:58px;animation:runAcross 6s linear infinite;will-change:transform;}
 .rf-leg-l{transform-origin:30px 54px;animation:legL 0.42s ease-in-out infinite;}
 .rf-leg-r{transform-origin:30px 54px;animation:legR 0.42s ease-in-out infinite;}
 .rf-arm-l{transform-origin:30px 29px;animation:armR 0.42s ease-in-out infinite;}
 .rf-arm-r{transform-origin:30px 29px;animation:armL 0.42s ease-in-out infinite;}
 @keyframes runAcross{
-  from{left:-8%;}
-  to{left:104%;}
+  from{transform:translateX(-8vw);}
+  to{transform:translateX(104vw);}
 }
 @keyframes legL{0%,100%{transform:rotate(26deg);}50%{transform:rotate(-24deg);}}
 @keyframes legR{0%,100%{transform:rotate(-24deg);}50%{transform:rotate(26deg);}}
 @keyframes armL{0%,100%{transform:rotate(24deg);}50%{transform:rotate(-22deg);}}
 @keyframes armR{0%,100%{transform:rotate(-22deg);}50%{transform:rotate(24deg);}}
 @media (prefers-reduced-motion:reduce){
-  .runner-figure,.rf-leg-l,.rf-leg-r,.rf-arm-l,.rf-arm-r{animation:none;left:45%;}
+  .runner-figure,.rf-leg-l,.rf-leg-r,.rf-arm-l,.rf-arm-r{animation:none;transform:translateX(45vw);}
 }
 @media (max-width:640px){
   .runner-figure{width:32px;height:48px;}
@@ -258,7 +258,7 @@ nav{
 .stair-3{left:148px;bottom:100px;width:78px;background:var(--teal);}
 .stair-4{left:222px;bottom:150px;width:78px;background:var(--coral);}
 .stair-5{left:296px;bottom:200px;width:78px;background:var(--yellow);}
-.stick-figure{position:absolute;width:52px;height:78px;z-index:5;animation:climbStairs 5.8s cubic-bezier(.45,0,.4,1) infinite;filter:drop-shadow(0 8px 10px rgba(21,23,27,.3));}
+.stick-figure{position:absolute;left:14px;bottom:34px;width:52px;height:78px;z-index:5;animation:climbStairs 5.8s cubic-bezier(.45,0,.4,1) infinite;filter:drop-shadow(0 8px 10px rgba(21,23,27,.3));will-change:transform;}
 .sf-arm-l{animation:armSwing 0.5s ease-in-out infinite alternate;transform-origin:30px 32px;}
 .sf-arm-flag{animation:armSwing 0.5s ease-in-out infinite alternate;transform-origin:30px 32px;animation-delay:.25s;}
 .sf-flag-cloth{animation:flagWave 1.1s ease-in-out infinite;transform-origin:46px 4px;}
@@ -268,15 +268,15 @@ nav{
 @keyframes flagWave{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(10deg);}}
 @keyframes legSwing{0%{transform:rotate(10deg);}100%{transform:rotate(-10deg);}}
 @keyframes climbStairs{
-  0%{left:14px;bottom:34px;opacity:0;}
+  0%{transform:translate(0,0);opacity:0;}
   6%{opacity:1;}
-  18%{left:88px;bottom:84px;}
-  36%{left:162px;bottom:134px;}
-  54%{left:236px;bottom:184px;}
-  70%{left:308px;bottom:234px;}
-  86%{left:308px;bottom:234px;opacity:1;}
-  93%{left:308px;bottom:234px;opacity:0;}
-  100%{left:14px;bottom:34px;opacity:0;}
+  18%{transform:translate(74px,-50px);}
+  36%{transform:translate(148px,-100px);}
+  54%{transform:translate(222px,-150px);}
+  70%{transform:translate(294px,-200px);}
+  86%{transform:translate(294px,-200px);opacity:1;}
+  93%{transform:translate(294px,-200px);opacity:0;}
+  100%{transform:translate(0,0);opacity:0;}
 }
 .growth-sparkles{position:absolute;left:280px;bottom:250px;width:80px;height:80px;pointer-events:none;z-index:6;}
 .spk{position:absolute;font-size:15px;color:var(--yellow);opacity:0;animation:sparklePop 5.8s ease-in-out infinite;filter:drop-shadow(0 2px 4px rgba(21,23,27,.2));}
