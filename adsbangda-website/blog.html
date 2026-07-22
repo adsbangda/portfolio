@@ -668,8 +668,8 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 
 <section class="page-hero">
   <div class="wrap">
-    <h1>Insight seputar social media & digital marketing</h1>
-    <p>Tips, strategi, dan pembahasan praktis yang bisa langsung kamu terapkan buat bisnis kamu.</p>
+    <h1 data-i18n="hero_h1">Insight seputar social media & digital marketing</h1>
+    <p data-i18n="hero_p">Tips, strategi, dan pembahasan praktis yang bisa langsung kamu terapkan buat bisnis kamu.</p>
   </div>
 </section>
 
@@ -678,22 +678,22 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
     <div class="blog-grid">
 
       <a href="artikel-kesalahan-umum-social-media-umkm.html" class="blog-card reveal" style="text-decoration:none;color:inherit;">
-        <div class="blog-thumb"><span>5 Kesalahan Umum UMKM di Sosial Media</span></div>
+        <div class="blog-thumb"><span data-i18n="post1_thumb">5 Kesalahan Umum UMKM di Sosial Media</span></div>
         <div class="blog-body">
           <div class="blog-cat">SOSIAL MEDIA</div>
-          <h3>5 Kesalahan Umum UMKM dalam Mengelola Media Sosial (dan Cara Memperbaikinya)</h3>
-          <p>Banyak UMKM udah rajin posting tapi hasilnya stuck gitu-gitu aja. Ternyata ini penyebabnya, dan cara benerinnya.</p>
-          <div class="blog-meta"><span>19 Jul 2026 &middot; 6 menit baca</span><span class="read-more">Baca &rarr;</span></div>
+          <h3 data-i18n="post1_h">5 Kesalahan Umum UMKM dalam Mengelola Media Sosial (dan Cara Memperbaikinya)</h3>
+          <p data-i18n="post1_p">Banyak UMKM udah rajin posting tapi hasilnya stuck gitu-gitu aja. Ternyata ini penyebabnya, dan cara benerinnya.</p>
+          <div class="blog-meta"><span data-i18n="post1_meta">19 Jul 2026 &middot; 6 menit baca</span><span class="read-more" data-i18n="read_more">Baca &rarr;</span></div>
         </div>
       </a>
 
       <a href="artikel-meta-ads-vs-boost-post.html" class="blog-card reveal" style="text-decoration:none;color:inherit;">
-        <div class="blog-thumb" style="background:linear-gradient(155deg,var(--teal),#0c2723);"><span style="color:#fff;">Meta Ads vs Boost Post</span></div>
+        <div class="blog-thumb" style="background:linear-gradient(155deg,var(--teal),#0c2723);"><span style="color:#fff;" data-i18n="post2_thumb">Meta Ads vs Boost Post</span></div>
         <div class="blog-body">
           <div class="blog-cat">META ADS</div>
-          <h3>Meta Ads vs Boost Post: Mana yang Lebih Efektif untuk Bisnis Kamu?</h3>
-          <p>Sering pencet tombol "boost" doang buat naikin postingan? Ternyata ada cara yang jauh lebih efektif buat budget yang sama.</p>
-          <div class="blog-meta"><span>19 Jul 2026 &middot; 7 menit baca</span><span class="read-more">Baca &rarr;</span></div>
+          <h3 data-i18n="post2_h">Meta Ads vs Boost Post: Mana yang Lebih Efektif untuk Bisnis Kamu?</h3>
+          <p data-i18n="post2_p">Sering pencet tombol "boost" doang buat naikin postingan? Ternyata ada cara yang jauh lebih efektif buat budget yang sama.</p>
+          <div class="blog-meta"><span data-i18n="post2_meta">19 Jul 2026 &middot; 7 menit baca</span><span class="read-more" data-i18n="read_more">Baca &rarr;</span></div>
         </div>
       </a>
 
@@ -763,6 +763,20 @@ function updateWaLinks(){
 updateWaLinks();
 
 // ---- shared nav/footer translation (site-wide, all pages) ----
+const translations = {
+  hero_h1: {id:'Insight seputar social media & digital marketing', en:'Insights on social media & digital marketing'},
+  hero_p: {id:'Tips, strategi, dan pembahasan praktis yang bisa langsung kamu terapkan buat bisnis kamu.', en:'Practical tips, strategies, and discussions you can apply straight away in your business.'},
+  post1_thumb: {id:'5 Kesalahan Umum UMKM di Sosial Media', en:'5 Common Social Media Mistakes SMEs Make'},
+  post1_h: {id:'5 Kesalahan Umum UMKM dalam Mengelola Media Sosial (dan Cara Memperbaikinya)', en:'5 Common Mistakes SMEs Make Managing Social Media (and How to Fix Them)'},
+  post1_p: {id:'Banyak UMKM udah rajin posting tapi hasilnya stuck gitu-gitu aja. Ternyata ini penyebabnya, dan cara benerinnya.', en:'Many SMEs post regularly but their results stay flat. Here\'s why, and how to fix it.'},
+  post1_meta: {id:'19 Jul 2026 &middot; 6 menit baca', en:'Jul 19, 2026 &middot; 6 min read'},
+  post2_thumb: {id:'Meta Ads vs Boost Post', en:'Meta Ads vs Boost Post'},
+  post2_h: {id:'Meta Ads vs Boost Post: Mana yang Lebih Efektif untuk Bisnis Kamu?', en:'Meta Ads vs Boost Post: Which Is More Effective for Your Business?'},
+  post2_p: {id:'Sering pencet tombol "boost" doang buat naikin postingan? Ternyata ada cara yang jauh lebih efektif buat budget yang sama.', en:'Do you just hit the "boost" button to promote a post? There\'s actually a far more effective way to use the same budget.'},
+  post2_meta: {id:'19 Jul 2026 &middot; 7 menit baca', en:'Jul 19, 2026 &middot; 7 min read'},
+  read_more: {id:'Baca &rarr;', en:'Read &rarr;'},
+};
+
 const navTranslations = {
   home: {id:'Home', en:'Home'},
   tentang: {id:'Tentang', en:'About'},
@@ -782,6 +796,11 @@ function applySharedLang(lang){
   document.querySelectorAll('[data-i18n-nav]').forEach(el=>{
     const key = el.getAttribute('data-i18n-nav');
     const entry = navTranslations[key];
+    if(entry) el.innerHTML = entry[lang];
+  });
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    const entry = translations[key];
     if(entry) el.innerHTML = entry[lang];
   });
   document.querySelectorAll('.lang-toggle .lang-opt').forEach(o=>{
