@@ -934,7 +934,7 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 </a>
 
 <script>
-let currentLang = 'id';
+let currentLang = localStorage.getItem('adsbangda_lang') || 'id';
 
 // ---- position mini-stat dividers at the exact midpoint of each gap ----
 function positionMiniDividers(){
@@ -1546,12 +1546,15 @@ function applyLang(lang){
 }
 
 function toggleLang(){
-  applyLang(currentLang === 'id' ? 'en' : 'id');
+  const newLang = currentLang === 'id' ? 'en' : 'id';
+  localStorage.setItem('adsbangda_lang', newLang);
+  applyLang(newLang);
 }
 const langToggleEl = document.getElementById('langToggle');
 const langToggleMobileEl = document.getElementById('langToggleMobile');
 if(langToggleEl) langToggleEl.addEventListener('click', toggleLang);
 if(langToggleMobileEl) langToggleMobileEl.addEventListener('click', toggleLang);
+applyLang(currentLang);
 updateWaLinks();
 </script>
 </body>

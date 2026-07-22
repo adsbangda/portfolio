@@ -771,7 +771,7 @@ const io = new IntersectionObserver((entries)=>{
 revealEls.forEach(el=>io.observe(el));
 
 // whatsapp links with prefilled message
-let currentLang = 'id';
+let currentLang = localStorage.getItem('adsbangda_lang') || 'id';
 const waMessages = {
   id: 'Halo Adsbangda! \ud83d\udc4b\nSaya ingin konsultasi mengenai kebutuhan digital marketing untuk bisnis saya. Apakah bisa dibantu?',
   en: 'Hello Adsbangda! \ud83d\udc4b\nI would like to consult about the digital marketing needs for my business. Could you help?'
@@ -785,6 +785,37 @@ function updateWaLinks(){
 updateWaLinks();
 
 // ---- shared nav/footer translation (site-wide, all pages) ----
+const translations = {
+  cat: {id:'Sosial Media', en:'Social Media'},
+  art_h1: {id:'5 Kesalahan Umum UMKM dalam Mengelola Media Sosial (dan Cara Memperbaikinya)', en:'5 Common Mistakes SMEs Make Managing Social Media (and How to Fix Them)'},
+  art_date: {id:'19 Juli 2026', en:'July 19, 2026'},
+  art_read: {id:'6 menit baca', en:'6 min read'},
+  p1: {id:'Hampir semua UMKM sekarang punya akun Instagram atau TikTok bisnis. Tapi kenyataannya, banyak yang udah rajin posting setiap hari, tetap aja followers-nya nggak nambah, engagement rendah, apalagi jualan lewat sosial media. Kalau kamu ngerasa relate, kemungkinan besar bukan karena kontennya jelek &mdash; tapi karena ada beberapa kesalahan mendasar yang sering nggak disadari.', en:'Almost every SME now has a business Instagram or TikTok account. But in reality, many post diligently every day yet their followers barely grow, engagement stays low, let alone selling through social media. If this sounds familiar, it\'s probably not because the content is bad &mdash; it\'s because of a few fundamental mistakes that often go unnoticed.'},
+  p2: {id:'Berikut 5 kesalahan paling umum yang kami temukan dari pengalaman mengelola puluhan akun bisnis, plus cara memperbaikinya.', en:'Here are the 5 most common mistakes we\'ve found from experience managing dozens of business accounts, plus how to fix them.'},
+  h1_1: {id:'1. Posting Tanpa Strategi yang Jelas', en:'1. Posting Without a Clear Strategy'},
+  p3: {id:'Ini yang paling sering terjadi. Konten dibuat asal ada aja buat diposting, tanpa tujuan yang jelas &mdash; apakah buat awareness, edukasi, atau jualan langsung. Akibatnya, konten jadi nggak konsisten temanya dan audiens bingung "akun ini sebenarnya jualan apa sih?"', en:'This is the most common one. Content gets made just to have something to post, without a clear purpose &mdash; whether it\'s for awareness, education, or direct selling. As a result, the content theme becomes inconsistent and audiences get confused about "what does this account actually sell?"'},
+  fix: {id:'Cara memperbaikinya:', en:'How to fix it:'},
+  p4b: {id:'Tentukan dulu 3-4 content pillar (tema besar konten) yang relevan sama bisnis kamu. Misalnya buat bisnis kuliner: edukasi bahan makanan, behind the scenes dapur, testimoni pelanggan, dan promo menu. Setiap konten yang dibuat harus masuk ke salah satu pillar ini.', en:'First, decide on 3-4 content pillars (broad content themes) relevant to your business. For a food business, for example: ingredient education, behind-the-scenes kitchen content, customer testimonials, and menu promos. Every piece of content you make should fall under one of these pillars.'},
+  h1_2: {id:'2. Terlalu Fokus Jualan, Lupa Membangun Kedekatan', en:'2. Too Focused on Selling, Forgetting to Build Connection'},
+  p5: {id:'Feed yang isinya cuma foto produk dan harga terus-menerus itu justru bikin orang males follow, apalagi engage. Media sosial itu soal membangun hubungan dulu, baru transaksi.', en:'A feed that\'s just product photos and prices over and over actually makes people reluctant to follow, let alone engage. Social media is about building a relationship first, then a transaction.'},
+  p6b: {id:'Terapkan rasio konten 80:20 &mdash; 80% konten yang bernilai buat audiens (edukasi, hiburan, cerita), 20% konten jualan langsung. Orang lebih percaya beli dari brand yang mereka udah kenal "kepribadiannya", bukan cuma brand yang muncul pas lagi diskon doang.', en:'Apply an 80:20 content ratio &mdash; 80% content that\'s valuable to the audience (education, entertainment, stories), 20% direct-selling content. People trust buying from a brand whose "personality" they already know, not just one that shows up only during a discount.'},
+  h1_3: {id:'3. Nggak Konsisten Jadwal Posting', en:'3. Inconsistent Posting Schedule'},
+  p7: {id:'Minggu ini posting tiap hari, minggu depan hilang seminggu, lalu muncul lagi rame-rame 5 postingan sekaligus. Pola kayak gini bikin algoritma platform "bingung" dan susah nge-push konten kamu ke audiens baru.', en:'This week you post every day, next week you disappear for a week, then suddenly come back with 5 posts at once. This kind of pattern "confuses" the platform algorithm and makes it hard to push your content to new audiences.'},
+  p8b: {id:'Bikin kalender konten mingguan atau bulanan. Nggak perlu posting tiap hari kalau memang belum sanggup &mdash; yang penting konsisten, misalnya 3-4 kali seminggu di jam yang sama.', en:'Make a weekly or monthly content calendar. You don\'t need to post every day if you can\'t manage it &mdash; what matters is consistency, for example 3-4 times a week at the same time.'},
+  h1_4: {id:'4. Caption Panjang Tapi Nggak Ada "Hook"', en:'4. Long Captions With No "Hook"'},
+  p9: {id:'Tiga detik pertama itu penentu apakah orang bakal lanjut nonton/baca atau langsung scroll. Banyak konten UMKM yang baru masuk ke poin pentingnya di kalimat ke-4 atau ke-5 &mdash; keburu ditinggal audiens.', en:'The first three seconds determine whether people keep watching/reading or just scroll away. A lot of SME content only gets to the important point by the 4th or 5th sentence &mdash; by then, the audience is already gone.'},
+  p10b: {id:'Kalimat pertama caption (atau 3 detik pertama video) harus langsung nyantol &mdash; bisa berupa pertanyaan, statement mengejutkan, atau langsung nunjukin hasil/manfaat. Baru di bagian bawah jelasin detailnya.', en:'The first sentence of a caption (or the first 3 seconds of a video) needs to hook immediately &mdash; it can be a question, a surprising statement, or directly showing the result/benefit. Save the details for further down.'},
+  h1_5: {id:'5. Nggak Pernah Cek Data & Insight', en:'5. Never Checking Data & Insights'},
+  p11: {id:'Banyak yang posting terus tanpa pernah lihat konten mana yang sebenarnya works dan mana yang enggak. Padahal data insight itu petunjuk paling jujur soal apa yang disukai audiens kamu.', en:'Many keep posting without ever checking which content actually works and which doesn\'t. Yet insight data is the most honest clue about what your audience actually likes.'},
+  p12b: {id:'Luangkan waktu tiap akhir bulan buat review insight &mdash; konten mana yang reach-nya paling tinggi, mana yang paling banyak di-save/share. Pola itu yang harus diulang dan dikembangkan lagi.', en:'Take time at the end of each month to review your insights &mdash; which content had the highest reach, which got the most saves/shares. That pattern is what you should repeat and build on.'},
+  quote: {id:'Konten yang bagus itu bukan soal seberapa mahal produksinya, tapi seberapa relevan dan konsisten dia hadir buat audiens yang tepat.', en:'Great content isn\'t about how expensive the production is, but how relevant and consistently it shows up for the right audience.'},
+  h_kesimpulan: {id:'Kesimpulan', en:'Conclusion'},
+  p_kesimpulan: {id:'Mengelola media sosial bisnis itu emang butuh waktu dan strategi, bukan cuma modal rajin posting. Kalau kamu ngerasa kelima hal di atas ini masih jadi tantangan buat bisnis kamu, itu wajar &mdash; banyak bisnis lain juga ngalamin hal yang sama sebelum akhirnya punya sistem konten yang jalan.', en:'Managing a business\'s social media does take time and strategy, not just a habit of posting diligently. If you feel these five things are still a challenge for your business, that\'s normal &mdash; many other businesses experienced the same thing before finally having a content system that works.'},
+  cta_h3: {id:'Butuh Bantuan Mengelola Sosial Media Bisnis Kamu?', en:'Need Help Managing Your Business\'s Social Media?'},
+  cta_p: {id:'Tim kami bisa bantu susun strategi, produksi konten, sampai laporan performa bulanan.', en:'Our team can help design the strategy, produce content, and deliver monthly performance reports.'},
+  cta_btn: {id:'Konsultasi Gratis &rarr;', en:'Free Consultation &rarr;'},
+};
+
 const navTranslations = {
   home: {id:'Home', en:'Home'},
   tentang: {id:'Tentang', en:'About'},
@@ -806,6 +837,11 @@ function applySharedLang(lang){
     const entry = navTranslations[key];
     if(entry) el.innerHTML = entry[lang];
   });
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key = el.getAttribute('data-i18n');
+    const entry = translations[key];
+    if(entry) el.innerHTML = entry[lang];
+  });
   document.querySelectorAll('.lang-toggle .lang-opt').forEach(o=>{
     o.classList.toggle('active', o.getAttribute('data-lang') === lang);
   });
@@ -813,12 +849,15 @@ function applySharedLang(lang){
   updateWaLinks();
 }
 function toggleSharedLang(){
-  applySharedLang(currentLang === 'id' ? 'en' : 'id');
+  const newLang = currentLang === 'id' ? 'en' : 'id';
+  localStorage.setItem('adsbangda_lang', newLang);
+  applySharedLang(newLang);
 }
 const langToggleEl = document.getElementById('langToggle');
 const langToggleMobileEl = document.getElementById('langToggleMobile');
 if(langToggleEl) langToggleEl.addEventListener('click', toggleSharedLang);
 if(langToggleMobileEl) langToggleMobileEl.addEventListener('click', toggleSharedLang);
+applySharedLang(currentLang);
 </script>
 
 </body>

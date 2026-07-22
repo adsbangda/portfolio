@@ -770,7 +770,7 @@ const io = new IntersectionObserver((entries)=>{
 revealEls.forEach(el=>io.observe(el));
 
 // whatsapp links with prefilled message
-let currentLang = 'id';
+let currentLang = localStorage.getItem('adsbangda_lang') || 'id';
 const waMessages = {
   id: 'Halo Adsbangda! \ud83d\udc4b\nSaya ingin konsultasi mengenai kebutuhan digital marketing untuk bisnis saya. Apakah bisa dibantu?',
   en: 'Hello Adsbangda! \ud83d\udc4b\nI would like to consult about the digital marketing needs for my business. Could you help?'
@@ -840,12 +840,15 @@ function applySharedLang(lang){
   updateWaLinks();
 }
 function toggleSharedLang(){
-  applySharedLang(currentLang === 'id' ? 'en' : 'id');
+  const newLang = currentLang === 'id' ? 'en' : 'id';
+  localStorage.setItem('adsbangda_lang', newLang);
+  applySharedLang(newLang);
 }
 const langToggleEl = document.getElementById('langToggle');
 const langToggleMobileEl = document.getElementById('langToggleMobile');
 if(langToggleEl) langToggleEl.addEventListener('click', toggleSharedLang);
 if(langToggleMobileEl) langToggleMobileEl.addEventListener('click', toggleSharedLang);
+applySharedLang(currentLang);
 </script>
 
 </body>
