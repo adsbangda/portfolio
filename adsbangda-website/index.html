@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<script>try{if(localStorage.getItem('adsbangda_lang')==='en'){document.documentElement.style.visibility='hidden';}}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adsbangda - Digital Agency</title>
@@ -548,7 +549,7 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
     <a href="index.html" class="logo"><span class="sq"></span>adsbangda</a>
     <div class="nav-links">
       <a href="index.html" data-i18n="nav_home" class="active">Home</a>
-      <a href="tentang.html">Tentang</a>
+      <a href="tentang.html" data-i18n="nav_tentang">Tentang</a>
       <a href="portofolio.html" data-i18n="nav_portofolio">Portofolio</a>
       <div class="nav-item-dropdown">
         <a href="layanan.html" class="nav-drop-trigger">
@@ -1555,6 +1556,7 @@ const langToggleMobileEl = document.getElementById('langToggleMobile');
 if(langToggleEl) langToggleEl.addEventListener('click', toggleLang);
 if(langToggleMobileEl) langToggleMobileEl.addEventListener('click', toggleLang);
 applyLang(currentLang);
+document.documentElement.style.visibility='visible';
 updateWaLinks();
 </script>
 </body>

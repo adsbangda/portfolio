@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<script>try{if(localStorage.getItem('adsbangda_lang')==='en'){document.documentElement.style.visibility='hidden';}}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Adsbangda - Studi Kasus InsideRuma</title>
@@ -822,6 +823,7 @@ const langToggleMobileEl = document.getElementById('langToggleMobile');
 if(langToggleEl) langToggleEl.addEventListener('click', toggleSharedLang);
 if(langToggleMobileEl) langToggleMobileEl.addEventListener('click', toggleSharedLang);
 applySharedLang(currentLang);
+document.documentElement.style.visibility='visible';
 </script>
 
 </body>
