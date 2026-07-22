@@ -202,6 +202,32 @@ nav{
   font-family:'Space Mono',monospace;font-size:26px;font-weight:700;display:block;
 }
 .mini-stat span{font-size:12.5px;color:var(--muted);}
+.mini-stat b .counter{font-size:inherit;color:inherit;display:inline;}
+
+/* ---------- RUNNER DIVIDER (simple outlined stick figure, smooth run cycle) ---------- */
+.runner-divider{position:relative;height:0;overflow:visible;}
+.runner-track{position:absolute;left:0;right:0;top:-58px;height:100px;overflow:hidden;pointer-events:none;}
+.runner-track .wrap{position:relative;height:100%;}
+.runner-ground{position:absolute;left:0;right:0;bottom:22px;height:1px;background:rgba(21,23,27,.15);}
+.runner-figure{position:absolute;bottom:22px;width:38px;height:58px;animation:runAcross 6s linear infinite;}
+.rf-leg-l{transform-origin:30px 54px;animation:legL 0.42s ease-in-out infinite;}
+.rf-leg-r{transform-origin:30px 54px;animation:legR 0.42s ease-in-out infinite;}
+.rf-arm-l{transform-origin:30px 29px;animation:armR 0.42s ease-in-out infinite;}
+.rf-arm-r{transform-origin:30px 29px;animation:armL 0.42s ease-in-out infinite;}
+@keyframes runAcross{
+  from{left:-8%;}
+  to{left:104%;}
+}
+@keyframes legL{0%,100%{transform:rotate(26deg);}50%{transform:rotate(-24deg);}}
+@keyframes legR{0%,100%{transform:rotate(-24deg);}50%{transform:rotate(26deg);}}
+@keyframes armL{0%,100%{transform:rotate(24deg);}50%{transform:rotate(-22deg);}}
+@keyframes armR{0%,100%{transform:rotate(-22deg);}50%{transform:rotate(24deg);}}
+@media (prefers-reduced-motion:reduce){
+  .runner-figure,.rf-leg-l,.rf-leg-r,.rf-arm-l,.rf-arm-r{animation:none;left:45%;}
+}
+@media (max-width:640px){
+  .runner-track{display:none;}
+}
 
 /* ---------- PHONE MOCK CLUSTER ---------- */
 .growth-stage{display:flex;justify-content:center;align-items:center;padding:20px 0;}
@@ -499,6 +525,7 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
   .mini-stat{flex:0 0 auto;padding-right:0;margin-right:0;border-right:none;min-width:0;position:relative;}
   .mini-stat b{font-size:20px;}
   .mini-stat span{font-size:10.5px;line-height:1.25;display:block;white-space:nowrap;}
+  .mini-stat b .counter{font-size:inherit;}
   .mini-divider{
     display:block;position:absolute;top:2px;bottom:2px;width:1px;
     background:rgba(21,23,27,.15);
@@ -579,11 +606,11 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
       <a href="portofolio.html" class="btn-secondary" data-i18n="hero_cta2">Lihat Portofolio</a>
     </div>
     <div class="mini-stats">
-      <div class="mini-stat"><b>20+</b><span data-i18n="stat1">Brand Partner Aktif</span></div>
+      <div class="mini-stat"><b data-count="20"><span class="counter">0</span>+</b><span data-i18n="stat1">Brand Partner Aktif</span></div>
       <span class="mini-divider" id="miniDiv1"></span>
-      <div class="mini-stat"><b>99%</b><span data-i18n="stat2">Klien Puas</span></div>
+      <div class="mini-stat"><b data-count="99"><span class="counter">0</span>%</b><span data-i18n="stat2">Klien Puas</span></div>
       <span class="mini-divider" id="miniDiv2"></span>
-      <div class="mini-stat"><b>10M+</b><span data-i18n="stat3">Views Konten Viral</span></div>
+      <div class="mini-stat"><b data-count="10"><span class="counter">0</span>M+</b><span data-i18n="stat3">Views Konten Viral</span></div>
     </div>
   </div>
 
@@ -635,10 +662,10 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 </div>
 
 <!-- SERVICES -->
-<section class="section" id="tentang" style="padding-bottom:70px;">
+<section class="section" id="tentang" style="padding-bottom:60px;">
   <div class="wrap">
     <div class="reveal">
-      <h2 data-i18n="about_h2">Digital marketing agency yang fokus di hasil, bukan cuma konten cantik</h2>
+      <h2 style="font-size:clamp(28px,3.4vw,42px);margin-bottom:20px;" data-i18n="about_h2">Partner digital yang fokus bikin bisnis kamu tumbuh</h2>
       <p style="margin-top:18px;font-size:15.5px;line-height:1.7;color:#3b3d3a;text-align:justify;" data-i18n="about_p1">Di Adsbangda, kami percaya bahwa setiap bisnis memiliki peluang untuk tumbuh lebih besar dengan strategi digital yang tepat.</p>
       <p style="margin-top:12px;font-size:15.5px;line-height:1.7;color:#3b3d3a;text-align:justify;" data-i18n="about_p2">Kami hadir sebagai partner yang membantu bisnis membangun kehadiran digital, menjangkau audiens yang tepat, dan menghasilkan peluang bisnis melalui Meta Ads, Social Media Management, serta strategi konten yang terukur.</p>
       <p style="margin-top:12px;font-size:15.5px;line-height:1.7;color:#3b3d3a;text-align:justify;" data-i18n="about_p3">Setiap campaign yang kami jalankan dirancang berdasarkan tujuan bisnis klien, bukan sekadar mengikuti tren. Mulai dari membangun brand awareness hingga menghasilkan leads dan meningkatkan penjualan, kami memastikan setiap langkah memiliki arah yang jelas dan dapat diukur.</p>
@@ -647,6 +674,22 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
     </div>
   </div>
 </section>
+
+<div class="runner-divider" aria-hidden="true">
+  <div class="runner-track">
+    <div class="wrap">
+      <div class="runner-ground"></div>
+      <svg class="runner-figure" viewBox="0 0 60 90" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="30" cy="13" r="8.5" fill="none" stroke="#15171B" stroke-width="3.2"/>
+        <line x1="30" y1="21.5" x2="30" y2="53" stroke="#15171B" stroke-width="3.2" stroke-linecap="round"/>
+        <line class="rf-arm-l" x1="30" y1="28" x2="16" y2="40" stroke="#15171B" stroke-width="3.2" stroke-linecap="round"/>
+        <line class="rf-arm-r" x1="30" y1="28" x2="44" y2="40" stroke="#15171B" stroke-width="3.2" stroke-linecap="round"/>
+        <line class="rf-leg-l" x1="30" y1="53" x2="16" y2="81" stroke="#15171B" stroke-width="3.2" stroke-linecap="round"/>
+        <line class="rf-leg-r" x1="30" y1="53" x2="44" y2="81" stroke="#15171B" stroke-width="3.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+  </div>
+</div>
 
 <section class="section" id="layanan">
   <div class="wrap">
@@ -727,7 +770,6 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 <section class="section section-tint" id="mengapa">
   <div class="wrap">
     <div class="section-head reveal" >
-      <div class="eyebrow" data-i18n="why_eyebrow">MENGAPA ADSBANGDA?</div>
       <h2 data-i18n="why_h2">Mengapa Memilih Adsbangda?</h2>
       <p style="margin-top:14px;font-size:15.5px;line-height:1.7;color:#3b3d3a;" data-i18n="why_intro">Kami memahami bahwa memilih partner digital marketing bukan hanya tentang mencari penyedia jasa, tetapi memilih tim yang mampu memahami bisnis Anda dan berkontribusi terhadap pertumbuhannya. Karena itu, setiap strategi yang kami jalankan selalu berorientasi pada tujuan bisnis, bukan sekadar aktivitas pemasaran.</p>
     </div>
@@ -773,7 +815,6 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 <section class="section section-dark" id="portofolio">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="eyebrow"><span class="dot"></span><span data-i18n="port_eyebrow">PORTOFOLIO</span></div>
       <h2 data-i18n="port_h2">Brand yang udah kita garap bareng</h2>
       <p style="margin-top:14px;font-size:15.5px;" data-i18n="port_p">Sebagian studi kasus dari klien yang kita pegang — geser buat lihat semua, klik kartunya buat lihat detail.</p>
     </div>
@@ -794,7 +835,6 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 <section class="section" id="proses">
   <div class="wrap">
     <div class="section-head reveal" >
-      <div class="eyebrow" data-i18n="proses_eyebrow">PROSES</div>
       <h2 data-i18n="proses_h2">Tahapan Bekerja Sama</h2>
       <p style="margin-top:14px;font-size:15.5px;line-height:1.7;color:#3b3d3a;" data-i18n="proses_intro">Kami percaya bahwa setiap bisnis memiliki kebutuhan dan tujuan yang berbeda. Oleh karena itu, setiap kerja sama diawali dengan proses yang terstruktur agar strategi yang dijalankan benar-benar sesuai dengan kebutuhan bisnis Anda.</p>
     </div>
@@ -812,7 +852,6 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 <section class="section section-tint" id="testimoni">
   <div class="wrap">
     <div class="section-head reveal">
-      <div class="eyebrow" data-i18n="testi_eyebrow">TESTIMONI</div>
       <h2 data-i18n="testi_h2">Kata mereka yang udah adsbangda bareng kita</h2>
     </div>
     <div class="testi-grid">
@@ -964,6 +1003,37 @@ const io = new IntersectionObserver((entries)=>{
   entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
 },{threshold:.15});
 revealEls.forEach(el=>io.observe(el));
+
+// ---- hero mini-stats: count-up animation on load ----
+function animateStatItem(item){
+  const target = parseInt(item.getAttribute('data-count'),10);
+  const counterEl = item.querySelector('.counter');
+  if(!counterEl || item.dataset.animating === '1') return;
+  item.dataset.animating = '1';
+  const duration = 1200;
+  const start = performance.now();
+  function tick(now){
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    counterEl.textContent = Math.round(eased * target);
+    if(progress < 1){
+      requestAnimationFrame(tick);
+    } else {
+      counterEl.textContent = target;
+      item.dataset.animating = '0';
+    }
+  }
+  requestAnimationFrame(tick);
+}
+const heroStatItems = document.querySelectorAll('.mini-stat b[data-count]');
+function startHeroStats(){
+  setTimeout(()=>{ heroStatItems.forEach(item=>animateStatItem(item)); }, 250);
+}
+if(document.readyState === 'complete'){
+  startHeroStats();
+} else {
+  window.addEventListener('load', startHeroStats);
+}
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -1380,7 +1450,7 @@ const translations = {
   stat1: {id:'Brand Partner Aktif', en:'Active Brand Partners'},
   stat2: {id:'Klien Puas', en:'Happy Clients'},
   stat3: {id:'Views Konten Viral', en:'Viral Content Views'},
-  about_h2: {id:'Digital marketing agency yang fokus di hasil, bukan cuma konten cantik', en:'A digital marketing agency focused on results, not just pretty content'},
+  about_h2: {id:'Partner digital yang fokus bikin bisnis kamu tumbuh', en:'A digital partner focused on growing your business'},
   about_p1: {id:'Di Adsbangda, kami percaya bahwa setiap bisnis memiliki peluang untuk tumbuh lebih besar dengan strategi digital yang tepat.', en:'At Adsbangda, we believe every business has the opportunity to grow bigger with the right digital strategy.'},
   about_p2: {id:'Kami hadir sebagai partner yang membantu bisnis membangun kehadiran digital, menjangkau audiens yang tepat, dan menghasilkan peluang bisnis melalui Meta Ads, Social Media Management, serta strategi konten yang terukur.', en:'We\'re here as a partner that helps businesses build a digital presence, reach the right audience, and generate business opportunities through Meta Ads, Social Media Management, and measurable content strategy.'},
   about_p3: {id:'Setiap campaign yang kami jalankan dirancang berdasarkan tujuan bisnis klien, bukan sekadar mengikuti tren. Mulai dari membangun brand awareness hingga menghasilkan leads dan meningkatkan penjualan, kami memastikan setiap langkah memiliki arah yang jelas dan dapat diukur.', en:'Every campaign we run is designed around our client\'s business goals, not just following trends. From building brand awareness to generating leads and increasing sales, we make sure every step has a clear, measurable direction.'},
