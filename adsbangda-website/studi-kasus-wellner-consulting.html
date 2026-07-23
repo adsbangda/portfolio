@@ -642,42 +642,46 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
 .project-block .mp-thumb img{width:100%;display:block;}
 .project-block p{font-size:16px;line-height:1.75;color:#3b3d3a;margin-bottom:14px;text-align:justify;}
 
-/* ---- case study: workflow as a journey/path (same language as homepage "Cara Kerja"), but continuous S-shaped flow ---- */
-.journey-wrap{margin-top:44px;}
-.journey-row{display:flex;gap:24px;position:relative;}
-.journey-row::before{
-  content:"";position:absolute;top:20px;left:0;right:0;height:1px;
-  background:repeating-linear-gradient(to right,rgba(21,23,27,.28) 0 6px,transparent 6px 12px);
+/* ---- case study: workflow timeline — single continuous SVG path behind a 3x3 grid ---- */
+.wf-track{position:relative;margin-top:0;aspect-ratio:1200/750;}
+.wf-connector{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0;}
+.wf-grid{position:relative;z-index:1;display:grid;grid-template-columns:1fr 8fr 1fr;grid-template-rows:repeat(5,1fr);height:100%;}
+.wf-node{position:relative;height:100%;}
+.wf-node .num{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'Space Mono',monospace;font-weight:700;font-size:13px;color:var(--coral);
+  background:var(--white);padding:6px 14px;border-radius:100px;display:inline-block;white-space:nowrap;
+  box-shadow:0 8px 18px -10px rgba(21,23,27,.3);z-index:2;
 }
-.journey-row.reverse{flex-direction:row-reverse;}
-.journey-step{flex:1 1 0;padding-right:20px;position:relative;min-width:0;}
-.journey-row.reverse .journey-step{padding-right:0;padding-left:20px;}
-.journey-step .num{
-  font-family:'Space Mono',monospace;font-weight:700;font-size:14px;color:var(--coral);
-  background:var(--paper-deep);display:inline-block;padding-right:10px;position:relative;z-index:1;margin-bottom:16px;
+.wf-node h4{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,26px);
+  font-size:15.5px;font-weight:700;line-height:1.3;text-align:center;
+  width:max-content;max-width:170px;
 }
-.journey-row.reverse .journey-step .num{padding-right:0;padding-left:10px;}
-.journey-step h4{font-size:16.5px;font-weight:700;line-height:1.3;}
-.journey-bend{display:flex;gap:24px;height:56px;margin:2px 0;}
-.journey-bend .slot{flex:1 1 0;min-width:0;position:relative;}
-.journey-bend .slot svg{position:absolute;top:0;left:0;}
-@media (max-width:900px){
-  .journey-row, .journey-row.reverse{flex-direction:column;gap:26px;}
-  .journey-row::before{display:none;}
-  .journey-row .journey-step, .journey-row.reverse .journey-step{padding:0;}
-  .journey-bend{display:none;}
+.wf-grid>*:nth-child(1){grid-column:1;grid-row:1;}
+.wf-grid>*:nth-child(2){grid-column:2;grid-row:1;}
+.wf-grid>*:nth-child(3){grid-column:3;grid-row:1;}
+.wf-grid>*:nth-child(4){grid-column:3;grid-row:3;}
+.wf-grid>*:nth-child(5){grid-column:2;grid-row:3;}
+.wf-grid>*:nth-child(6){grid-column:1;grid-row:3;}
+.wf-grid>*:nth-child(7){grid-column:1;grid-row:5;}
+.wf-grid>*:nth-child(8){grid-column:2;grid-row:5;}
+.wf-grid>*:nth-child(9){grid-column:3;grid-row:5;}
+@media (max-width:640px){
+  .wf-track{aspect-ratio:auto;}
+  .wf-connector{display:none;}
+  .wf-grid{grid-template-columns:1fr;grid-template-rows:none;gap:34px;height:auto;}
+  .wf-node{display:flex;align-items:center;gap:14px;height:auto;}
+  .wf-node .num{position:static;transform:none;flex-shrink:0;}
+  .wf-node h4{position:static;transform:none;text-align:left;width:auto;max-width:none;}
+  .wf-grid>*:nth-child(n){grid-column:1;grid-row:auto;}
 }
 
 /* ---- case study: tools & software ---- */
-.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:40px;}
-.tools-cat{background:var(--white);border:1px solid rgba(21,23,27,.09);border-radius:18px;padding:30px 28px;position:relative;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease;}
-.tools-cat:hover{transform:translateY(-4px);box-shadow:0 18px 34px -22px rgba(21,23,27,.3);}
-.tools-cat::before{content:"";position:absolute;top:0;left:0;width:100%;height:4px;}
-.tools-cat.accent-coral::before{background:var(--coral);}
-.tools-cat.accent-teal::before{background:var(--teal);}
-.tools-cat.accent-yellow::before{background:var(--yellow);}
-.tools-cat.accent-ink::before{background:var(--ink);}
-.tools-cat h4{font-family:'Space Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:22px;}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px 32px;margin-top:0;}
+.tools-cat{background:none;border:none;box-shadow:none;padding:0;}
+.tools-cat h4{font-family:'Space Mono',monospace;font-size:13px;text-transform:none;letter-spacing:.02em;color:var(--ink);margin-bottom:20px;font-weight:700;}
+.tools-cat h4::after{content:" :";color:var(--muted);}
 .tools-icon-row{display:flex;flex-wrap:wrap;gap:22px 18px;}
 .tool-item{display:flex;flex-direction:column;align-items:center;gap:12px;width:68px;text-align:center;}
 .tool-logo{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-weight:700;font-size:13.5px;letter-spacing:-.02em;flex-shrink:0;box-shadow:0 10px 20px -12px rgba(21,23,27,.35);}
@@ -844,31 +848,20 @@ footer{background:var(--ink);color:var(--paper);padding:60px 0 26px;}
       <h2 data-i18n="wf_label">Workflow Project</h2>
       <p data-i18n="wf_desc">Kami menerapkan proses kerja yang terstruktur untuk memastikan setiap aktivitas pemasaran digital berjalan efektif dan menghasilkan output yang konsisten.</p>
     </div>
-    <div class="journey-wrap reveal">
-      <div class="journey-row">
-        <div class="journey-step"><span class="num">01</span><h4 data-i18n="wf_1">Discovery</h4></div>
-        <div class="journey-step"><span class="num">02</span><h4 data-i18n="wf_2">Research</h4></div>
-        <div class="journey-step"><span class="num">03</span><h4 data-i18n="wf_3">Content Planning</h4></div>
-      </div>
-      <div class="journey-bend to-right">
-        <div class="slot"></div>
-        <div class="slot"></div>
-        <div class="slot"><svg width="36" height="52" viewBox="0 0 36 52" fill="none"><path d="M18 0 C18 16 2 16 2 26 C2 36 18 36 18 52" stroke="rgba(21,23,27,.35)" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/><circle cx="18" cy="52" r="4" fill="#FF4A3D"/></svg></div>
-      </div>
-      <div class="journey-row reverse">
-        <div class="journey-step"><span class="num">04</span><h4 data-i18n="wf_4">Design</h4></div>
-        <div class="journey-step"><span class="num">05</span><h4 data-i18n="wf_5">Campaign Setup</h4></div>
-        <div class="journey-step"><span class="num">06</span><h4 data-i18n="wf_6">Publishing</h4></div>
-      </div>
-      <div class="journey-bend to-left">
-        <div class="slot"><svg width="36" height="52" viewBox="0 0 36 52" fill="none"><path d="M18 0 C18 16 34 16 34 26 C34 36 18 36 18 52" stroke="rgba(21,23,27,.35)" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/><circle cx="18" cy="52" r="4" fill="#FF4A3D"/></svg></div>
-        <div class="slot"></div>
-        <div class="slot"></div>
-      </div>
-      <div class="journey-row">
-        <div class="journey-step"><span class="num">07</span><h4 data-i18n="wf_7">Monitoring</h4></div>
-        <div class="journey-step"><span class="num">08</span><h4 data-i18n="wf_8">Optimization</h4></div>
-        <div class="journey-step"><span class="num">09</span><h4 data-i18n="wf_9">Reporting</h4></div>
+    <div class="wf-track reveal">
+      <svg class="wf-connector" viewBox="0 0 1200 750" fill="none" preserveAspectRatio="none">
+        <path d="M60,75 L600,75 L1140,75 C1200,75 1200,375 1140,375 L600,375 L60,375 C0,375 0,675 60,675 L600,675 L1140,675" stroke="rgba(21,23,27,.4)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="2 11" vector-effect="non-scaling-stroke"/>
+      </svg>
+      <div class="wf-grid">
+        <div class="wf-node"><span class="num">01</span><h4 data-i18n="wf_1">Discovery</h4></div>
+        <div class="wf-node"><span class="num">02</span><h4 data-i18n="wf_2">Research</h4></div>
+        <div class="wf-node"><span class="num">03</span><h4 data-i18n="wf_3">Content Planning</h4></div>
+        <div class="wf-node"><span class="num">04</span><h4 data-i18n="wf_4">Design</h4></div>
+        <div class="wf-node"><span class="num">05</span><h4 data-i18n="wf_5">Campaign Setup</h4></div>
+        <div class="wf-node"><span class="num">06</span><h4 data-i18n="wf_6">Publishing</h4></div>
+        <div class="wf-node"><span class="num">07</span><h4 data-i18n="wf_7">Monitoring</h4></div>
+        <div class="wf-node"><span class="num">08</span><h4 data-i18n="wf_8">Optimization</h4></div>
+        <div class="wf-node"><span class="num">09</span><h4 data-i18n="wf_9">Reporting</h4></div>
       </div>
     </div>
   </div>
